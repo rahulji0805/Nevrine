@@ -36,9 +36,10 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include
 )
 
-# Core library sources (Session 1: Device Info + Error Handling)
+# Core library sources (P0: Device Info, Error Handling; P1: Memory Arena)
 add_library(nexus_core STATIC
     src/core/device_info.cpp
+    src/core/arena.cpp
     src/cuda/smoke_kernel.cu
 )
 
@@ -55,6 +56,16 @@ target_link_libraries(nexus_smoke_test PRIVATE
     nexus_core
 )
 
-set_target_properties(nexus_smoke_test PROPERTIES
-    CUDA_SEPARABLE_COMPILATION OFF
+# Memory arena unit test executable (Session 2 / P1)
+add_executable(test_arena
+    tests/cpp/test_arena.cu
 )
+
+target_link_libraries(test_arena PRIVATE
+    nexus_core
+)
+
+# Enable testing support
+enable_testing()
+add_test(NAME smoke_test COMMAND nexus_smoke_test)
+add_test(NAME arena_test COMMAND test_arena)
