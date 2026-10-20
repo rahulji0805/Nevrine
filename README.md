@@ -11,9 +11,9 @@ Based on the 8-week execution plan:
 | Milestone | Phase | Description | Status |
 | :--- | :--- | :--- | :--- |
 | **P0** | **Session 1** | Build foundation, CMake toolchain, device info & CUDA smoke test | **Completed** ✅ |
-| **P1** | **Session 2** | VRAM Arena skeleton, 256-byte alignment, offset sub-allocation, bounds & exhaustion tests | **Next Up** ⏳ |
-| **P2** | **Session 3** | Naive GEMM baseline kernel, launch bounds, CPU reference verification | Planned |
-| **P3** | **Week 3** | Shared-memory Tiled GEMM, CUDA-event timing, benchmarks vs cuBLAS | Planned |
+| **P1** | **Session 2** | VRAM Arena skeleton, 256-byte alignment, offset sub-allocation, bounds & exhaustion tests | **Completed** ✅ |
+| **P2** | **Session 3** | Naive GEMM baseline kernel, launch bounds, CPU reference verification & benchmark | **Completed** ✅ |
+| **P3** | **Week 3** | Shared-memory Tiled GEMM, CUDA-event timing, benchmarks vs cuBLAS | **Next Up** ⏳ |
 | **P4** | **Week 4** | Conv2D kernel, activations (ReLU), edge-case validation | Planned |
 | **P5** | **Week 5** | Pybind11 Python bindings, explicit tensor transfers, CPU fallback | Planned |
 | **P6** | **Week 6-7** | End-to-end CNN pipeline, FastAPI serving, Docker container, AWS deployment | Planned |
