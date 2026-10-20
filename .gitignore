@@ -1,0 +1,33 @@
+# Build directories
+build/
+bin/
+lib/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+venv/
+.venv/
+
+# Profiling & Logs
+*.nvvp
+*.nsys-rep
+*.ncu-rep
+*.log
