@@ -36,11 +36,13 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include
 )
 
-# Core library sources (P0: Device Info, Error Handling; P1: Memory Arena)
+# Core library sources
 add_library(nexus_core STATIC
     src/core/device_info.cpp
     src/core/arena.cpp
+    src/cpu/gemm_cpu.cpp
     src/cuda/smoke_kernel.cu
+    src/cuda/gemm_naive.cu
 )
 
 target_include_directories(nexus_core PUBLIC
@@ -51,21 +53,28 @@ target_include_directories(nexus_core PUBLIC
 add_executable(nexus_smoke_test
     src/main.cpp
 )
-
-target_link_libraries(nexus_smoke_test PRIVATE
-    nexus_core
-)
+target_link_libraries(nexus_smoke_test PRIVATE nexus_core)
 
 # Memory arena unit test executable (Session 2 / P1)
 add_executable(test_arena
     tests/cpp/test_arena.cu
 )
+target_link_libraries(test_arena PRIVATE nexus_core)
 
-target_link_libraries(test_arena PRIVATE
-    nexus_core
+# Naive GEMM unit & reference test executable (Session 3 / P2)
+add_executable(test_gemm
+    tests/cpp/test_gemm.cu
 )
+target_link_libraries(test_gemm PRIVATE nexus_core)
+
+# Naive GEMM baseline benchmark harness (Session 3 / P2)
+add_executable(bench_gemm_naive
+    benchmarks/bench_gemm_naive.cu
+)
+target_link_libraries(bench_gemm_naive PRIVATE nexus_core)
 
 # Enable testing support
 enable_testing()
 add_test(NAME smoke_test COMMAND nexus_smoke_test)
 add_test(NAME arena_test COMMAND test_arena)
+add_test(NAME gemm_naive_test COMMAND test_gemm)
