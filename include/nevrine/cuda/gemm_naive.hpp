@@ -1,9 +1,9 @@
 #pragma once
 
-#include "nexus/core/cuda_utils.hpp"
+#include "nevrine/core/cuda_utils.hpp"
 #include <cuda_runtime.h>
 
-namespace nexus {
+namespace nevrine {
 namespace cuda {
 
 /**
@@ -35,4 +35,4 @@ void launchNaiveGemm(const float* A, const float* B, float* C,
                     cudaStream_t stream = 0);
 
 } // namespace cuda
-} // namespace nexus
+} // namespace nevrine

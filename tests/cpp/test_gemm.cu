@@ -1,7 +1,7 @@
-#include "nexus/core/arena.hpp"
-#include "nexus/core/cuda_utils.hpp"
-#include "nexus/cpu/gemm_cpu.hpp"
-#include "nexus/cuda/gemm_naive.hpp"
+#include "nevrine/core/arena.hpp"
+#include "nevrine/core/cuda_utils.hpp"
+#include "nevrine/cpu/gemm_cpu.hpp"
+#include "nevrine/cuda/gemm_naive.hpp"
 #include <cmath>
 #include <iostream>
 #include <random>
@@ -42,11 +42,11 @@ void runSingleGemmTest(int M, int N, int K, float alpha, float beta, const std::
     }
 
     // Run CPU Golden Reference
-    nexus::cpu::gemmCpuReference(h_A.data(), h_B.data(), h_C_cpu.data(), M, N, K, alpha, beta);
+    nevrine::cpu::gemmCpuReference(h_A.data(), h_B.data(), h_C_cpu.data(), M, N, K, alpha, beta);
 
     // Run GPU Naive GEMM via DeviceMemoryArena
     size_t arena_capacity = bytes_A + bytes_B + bytes_C + 4096; // slight headroom for 256-byte alignment
-    nexus::core::DeviceMemoryArena arena(arena_capacity, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_capacity, 256);
 
     float* d_A = static_cast<float*>(arena.allocate(bytes_A));
     float* d_B = static_cast<float*>(arena.allocate(bytes_B));
@@ -60,7 +60,7 @@ void runSingleGemmTest(int M, int N, int K, float alpha, float beta, const std::
         CUDA_CHECK(cudaMemset(d_C, 0, bytes_C));
     }
 
-    nexus::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, alpha, beta);
+    nevrine::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, alpha, beta);
     CUDA_SYNC_AND_CHECK();
 
     CUDA_CHECK(cudaMemcpy(h_C_gpu.data(), d_C, bytes_C, cudaMemcpyDeviceToHost));
@@ -85,7 +85,7 @@ void runSingleGemmTest(int M, int N, int K, float alpha, float beta, const std::
 
 int main() {
     std::cout << "========================================================\n"
-              << "         NEXUS-CUDA NAIVE GEMM TEST SUITE (P2)          \n"
+              << "         Nevrine NAIVE GEMM TEST SUITE (P2)          \n"
               << "========================================================\n";
 
     try {

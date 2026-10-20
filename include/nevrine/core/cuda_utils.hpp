@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace nexus {
+namespace nevrine {
 namespace core {
 
 /**
@@ -68,13 +68,13 @@ inline void checkCudaKernel(const char* file, int line, const char* func, const 
 }
 
 } // namespace core
-} // namespace nexus
+} // namespace nevrine
 
 #define CUDA_CHECK(call) \
-    ::nexus::core::checkCudaError((call), __FILE__, __LINE__, __func__, #call)
+    ::nevrine::core::checkCudaError((call), __FILE__, __LINE__, __func__, #call)
 
 #define CUDA_CHECK_KERNEL(kernel_name) \
-    ::nexus::core::checkCudaKernel(__FILE__, __LINE__, __func__, (kernel_name))
+    ::nevrine::core::checkCudaKernel(__FILE__, __LINE__, __func__, (kernel_name))
 
 #define CUDA_SYNC_AND_CHECK() \
     do { \

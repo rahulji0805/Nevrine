@@ -1,10 +1,10 @@
-#include "nexus/cuda/smoke_kernel.hpp"
-#include "nexus/core/cuda_utils.hpp"
+#include "nevrine/cuda/smoke_kernel.hpp"
+#include "nevrine/core/cuda_utils.hpp"
 #include <cmath>
 #include <iostream>
 #include <vector>
 
-namespace nexus {
+namespace nevrine {
 namespace cuda {
 
 // Device kernel for elementwise affine transform: y[i] = alpha * x[i] + beta
@@ -83,4 +83,4 @@ bool runSmokeTest(size_t n) {
 }
 
 } // namespace cuda
-} // namespace nexus
+} // namespace nevrine

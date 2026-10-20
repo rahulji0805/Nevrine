@@ -1,4 +1,4 @@
-# NEXUS-CUDA Benchmark Report & Empirical Evaluation
+# Nevrine Benchmark Report & Empirical Evaluation
 
 **Hardware**: NVIDIA GeForce RTX 4060 Laptop GPU (8188 MiB VRAM, 24 SMs, Ada Lovelace `sm_89`)  
 **Driver / CUDA**: NVIDIA Driver 591.66 | CUDA Toolkit 12.4 (`nvcc V12.4.131`)  

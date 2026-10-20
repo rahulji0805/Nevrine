@@ -1,7 +1,7 @@
-#include "nexus/cpu/gemm_cpu.hpp"
+#include "nevrine/cpu/gemm_cpu.hpp"
 #include <stdexcept>
 
-namespace nexus {
+namespace nevrine {
 namespace cpu {
 
 void gemmCpuReference(const float* A, const float* B, float* C,
@@ -31,4 +31,4 @@ void gemmCpuReference(const float* A, const float* B, float* C,
 }
 
 } // namespace cpu
-} // namespace nexus
+} // namespace nevrine

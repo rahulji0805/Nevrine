@@ -1,5 +1,5 @@
-#include "nexus/core/arena.hpp"
-#include "nexus/core/cuda_utils.hpp"
+#include "nevrine/core/arena.hpp"
+#include "nevrine/core/cuda_utils.hpp"
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -15,7 +15,7 @@ __global__ void arenaVectorAddKernel(const float* a, const float* b, float* c, s
 void testAlignment() {
     std::cout << "[TEST] 1. Alignment Verification (256-byte boundaries)... ";
     constexpr size_t arena_size = 1024 * 1024; // 1 MB
-    nexus::core::DeviceMemoryArena arena(arena_size, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_size, 256);
 
     for (size_t s : {1, 3, 17, 64, 127, 255, 256, 513, 1024}) {
         void* ptr = arena.allocate(s);
@@ -33,7 +33,7 @@ void testAlignment() {
 void testExhaustion() {
     std::cout << "[TEST] 2. Capacity Exhaustion & Out-of-Memory Handling... ";
     constexpr size_t arena_size = 1024 * 1024; // 1 MB
-    nexus::core::DeviceMemoryArena arena(arena_size, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_size, 256);
 
     // Allocate 700 KB
     arena.allocate(700 * 1024);
@@ -42,7 +42,7 @@ void testExhaustion() {
     bool caught_expected = false;
     try {
         arena.allocate(500 * 1024);
-    } catch (const nexus::core::ArenaOutOfMemoryException&) {
+    } catch (const nevrine::core::ArenaOutOfMemoryException&) {
         caught_expected = true;
     }
     if (!caught_expected) {
@@ -54,7 +54,7 @@ void testExhaustion() {
 void testResetAndReuse() {
     std::cout << "[TEST] 3. Reset and Memory Reuse... ";
     constexpr size_t arena_size = 2 * 1024 * 1024; // 2 MB
-    nexus::core::DeviceMemoryArena arena(arena_size, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_size, 256);
 
     // Fill arena
     arena.allocate(1024 * 1024);
@@ -83,7 +83,7 @@ void testGpuKernelMultiRegion() {
     constexpr size_t region_bytes = num_elements * sizeof(float); // 16 KB each
     constexpr size_t arena_size = 1024 * 1024; // 1 MB
 
-    nexus::core::DeviceMemoryArena arena(arena_size, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_size, 256);
 
     // Sub-allocate 3 distinct tensor buffers from the single arena block
     float* d_a = static_cast<float*>(arena.allocate(region_bytes));
@@ -131,7 +131,7 @@ void testGpuKernelMultiRegion() {
 
 int main() {
     std::cout << "========================================================\n"
-              << "       NEXUS-CUDA MEMORY ARENA TEST SUITE (P1)          \n"
+              << "       Nevrine MEMORY ARENA TEST SUITE (P1)          \n"
               << "========================================================\n";
 
     try {

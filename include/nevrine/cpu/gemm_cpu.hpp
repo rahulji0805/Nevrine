@@ -1,6 +1,6 @@
 #pragma once
 
-namespace nexus {
+namespace nevrine {
 namespace cpu {
 
 /**
@@ -21,4 +21,4 @@ void gemmCpuReference(const float* A, const float* B, float* C,
                       float alpha = 1.0f, float beta = 0.0f);
 
 } // namespace cpu
-} // namespace nexus
+} // namespace nevrine

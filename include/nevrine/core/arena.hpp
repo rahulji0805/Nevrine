@@ -1,12 +1,12 @@
 #pragma once
 
-#include "nexus/core/cuda_utils.hpp"
+#include "nevrine/core/cuda_utils.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
 
-namespace nexus {
+namespace nevrine {
 namespace core {
 
 /**
@@ -118,4 +118,4 @@ private:
 };
 
 } // namespace core
-} // namespace nexus
+} // namespace nevrine

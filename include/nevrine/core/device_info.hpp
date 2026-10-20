@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstddef>
 
-namespace nexus {
+namespace nevrine {
 namespace core {
 
 struct MemoryInfo {
@@ -45,4 +45,4 @@ public:
 };
 
 } // namespace core
-} // namespace nexus
+} // namespace nevrine

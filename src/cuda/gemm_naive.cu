@@ -1,7 +1,7 @@
-#include "nexus/cuda/gemm_naive.hpp"
+#include "nevrine/cuda/gemm_naive.hpp"
 #include <stdexcept>
 
-namespace nexus {
+namespace nevrine {
 namespace cuda {
 
 __global__ void naiveGemmKernel(const float* __restrict__ A,
@@ -49,4 +49,4 @@ void launchNaiveGemm(const float* A, const float* B, float* C,
 }
 
 } // namespace cuda
-} // namespace nexus
+} // namespace nevrine

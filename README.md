@@ -1,4 +1,4 @@
-# NEXUS-CUDA: Cloud-Native Neural Acceleration Engine
+# Nevrine: Cloud-Native Neural Acceleration Engine
 
 A lightweight, transparent C++/CUDA neural network inference runtime engineered for predictable memory behavior, high-throughput kernel execution, and zero steady-state GPU allocations.
 
@@ -26,7 +26,7 @@ Based on the 8-week execution plan:
 ```text
 Nevrine/
 ├── CMakeLists.txt            # Build configuration (C++17, CUDA 12.4, sm_89 + sm_75)
-├── include/nexus/
+├── include/nevrine/
 │   ├── core/
 │   │   ├── cuda_utils.hpp    # CUDA_CHECK, CUDA_CHECK_KERNEL, CudaException
 │   │   └── device_info.hpp   # Device properties & VRAM memory query API
@@ -62,7 +62,7 @@ cmake --build build
 
 ### Run Environment Smoke Test
 ```bash
-./build/nexus_smoke_test
+./build/nevrine_smoke
 ```
 
 ---

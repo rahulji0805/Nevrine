@@ -1,9 +1,9 @@
-#include "nexus/core/device_info.hpp"
-#include "nexus/core/cuda_utils.hpp"
+#include "nevrine/core/device_info.hpp"
+#include "nevrine/core/cuda_utils.hpp"
 #include <iomanip>
 #include <iostream>
 
-namespace nexus {
+namespace nevrine {
 namespace core {
 
 int DeviceManager::getDeviceCount() {
@@ -62,7 +62,7 @@ void DeviceManager::printDeviceSummary(int device_id) {
     MemoryInfo mem = getMemoryInfo();
 
     std::cout << "========================================================\n"
-              << "            NEXUS-CUDA DEVICE ENVIRONMENT REPORT         \n"
+              << "            Nevrine DEVICE ENVIRONMENT REPORT         \n"
               << "========================================================\n";
     std::cout << std::left << std::setw(28) << "Device ID:" << prop.device_id << "\n";
     std::cout << std::left << std::setw(28) << "Device Name:" << prop.name << "\n";
@@ -88,4 +88,4 @@ void DeviceManager::printDeviceSummary(int device_id) {
 }
 
 } // namespace core
-} // namespace nexus
+} // namespace nevrine

@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-namespace nexus {
+namespace nevrine {
 namespace cuda {
 
 /**
@@ -29,4 +29,4 @@ void launchSmokeKernel(const float* d_x, float* d_y, float alpha, float beta, si
 bool runSmokeTest(size_t n = 1024);
 
 } // namespace cuda
-} // namespace nexus
+} // namespace nevrine

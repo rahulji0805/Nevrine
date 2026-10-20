@@ -1,4 +1,4 @@
-# NEXUS-CUDA Development Environment Profile
+# Nevrine Development Environment Profile
 
 **Recorded Date**: 2026-10-20  
 **Verification Target**: P0 / Session 1 Smoke Test  
@@ -38,17 +38,17 @@ cmake --build build
 
 ### 3. Run Environment Verification & Smoke Test
 ```bash
-./build/nexus_smoke_test
+./build/nevrine_smoke
 ```
 
 ### 4. Verification Output
 ```text
-Starting NEXUS-CUDA Environment Verification (Session 1 / P0)...
+Starting Nevrine Environment Verification (Session 1 / P0)...
 
 Discovered 1 CUDA device(s).
 
 ========================================================
-            NEXUS-CUDA DEVICE ENVIRONMENT REPORT         
+            Nevrine DEVICE ENVIRONMENT REPORT         
 ========================================================
 Device ID:                  0
 Device Name:                NVIDIA GeForce RTX 4060 Laptop GPU

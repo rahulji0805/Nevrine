@@ -1,7 +1,7 @@
-# NEXUS-CUDA Architecture & Memory Design Note
+# Nevrine Architecture & Memory Design Note
 
 ## 1. Scope and Mission
-NEXUS-CUDA is a lightweight, low-overhead neural acceleration inference runtime. Rather than providing an expansive autograd engine or general-purpose compiler, NEXUS-CUDA focuses on deterministic, predictable memory behavior and zero steady-state GPU allocations during inference.
+Nevrine is a lightweight, low-overhead neural acceleration inference runtime. Rather than providing an expansive autograd engine or general-purpose compiler, Nevrine focuses on deterministic, predictable memory behavior and zero steady-state GPU allocations during inference.
 
 ---
 
@@ -13,8 +13,8 @@ In standard deep learning runtimes (such as naive PyTorch or ONNX Runtime config
 2. Host-device synchronization barriers.
 3. Virtual memory fragmentation over millions of continuous API requests.
 
-### 2.2 The NEXUS-CUDA Guarantee
-NEXUS-CUDA enforces a **Fixed-Capacity Device Memory Arena**:
+### 2.2 The Nevrine Guarantee
+Nevrine enforces a **Fixed-Capacity Device Memory Arena**:
 - **Initialization**: Upon engine initialization, a single contiguous chunk of device VRAM (e.g., 2 GB or 4 GB, user-configurable) is allocated via `cudaMalloc`.
 - **Steady-State Invariance**: During the inference loop, **zero** `cudaMalloc` or `cudaFree` calls are executed.
 - **Sub-allocation**: All tensor allocations (input buffers, weights, intermediate activation tensors, workspace scratchpads) are sub-allocated from this monolithic buffer.

@@ -1,8 +1,8 @@
-#include "nexus/core/arena.hpp"
+#include "nevrine/core/arena.hpp"
 #include <iostream>
 #include <utility>
 
-namespace nexus {
+namespace nevrine {
 namespace core {
 
 DeviceMemoryArena::DeviceMemoryArena(size_t capacity_bytes, size_t alignment)
@@ -107,4 +107,4 @@ bool DeviceMemoryArena::contains(const void* ptr, size_t size_bytes) const noexc
 }
 
 } // namespace core
-} // namespace nexus
+} // namespace nevrine

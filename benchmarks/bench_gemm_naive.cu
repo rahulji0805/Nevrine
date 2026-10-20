@@ -1,6 +1,6 @@
-#include "nexus/core/arena.hpp"
-#include "nexus/core/cuda_utils.hpp"
-#include "nexus/cuda/gemm_naive.hpp"
+#include "nevrine/core/arena.hpp"
+#include "nevrine/core/cuda_utils.hpp"
+#include "nevrine/cuda/gemm_naive.hpp"
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
@@ -25,7 +25,7 @@ BenchmarkResult runGemmBenchmark(int M, int N, int K, int warmup = 5, int iters 
     const size_t bytes_C = size_C * sizeof(float);
 
     const size_t arena_capacity = bytes_A + bytes_B + bytes_C + 4096;
-    nexus::core::DeviceMemoryArena arena(arena_capacity, 256);
+    nevrine::core::DeviceMemoryArena arena(arena_capacity, 256);
 
     float* d_A = static_cast<float*>(arena.allocate(bytes_A));
     float* d_B = static_cast<float*>(arena.allocate(bytes_B));
@@ -37,7 +37,7 @@ BenchmarkResult runGemmBenchmark(int M, int N, int K, int warmup = 5, int iters 
 
     // Warm-up runs
     for (int i = 0; i < warmup; ++i) {
-        nexus::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, 1.0f, 0.0f);
+        nevrine::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, 1.0f, 0.0f);
     }
     CUDA_SYNC_AND_CHECK();
 
@@ -50,7 +50,7 @@ BenchmarkResult runGemmBenchmark(int M, int N, int K, int warmup = 5, int iters 
 
     for (int i = 0; i < iters; ++i) {
         CUDA_CHECK(cudaEventRecord(start));
-        nexus::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, 1.0f, 0.0f);
+        nevrine::cuda::launchNaiveGemm(d_A, d_B, d_C, M, N, K, 1.0f, 0.0f);
         CUDA_CHECK(cudaEventRecord(stop));
         CUDA_CHECK(cudaEventSynchronize(stop));
 
@@ -77,7 +77,7 @@ BenchmarkResult runGemmBenchmark(int M, int N, int K, int warmup = 5, int iters 
 
 int main() {
     std::cout << "=========================================================================\n"
-              << "              NEXUS-CUDA NAIVE SGEMM BASELINE BENCHMARK                  \n"
+              << "              Nevrine NAIVE SGEMM BASELINE BENCHMARK                  \n"
               << "=========================================================================\n"
               << "Device: NVIDIA GeForce RTX 4060 Laptop (Ada Lovelace sm_89)\n"
               << "Timing: CUDA Events | Warm-up: 5 iterations | Measurement: 20 iterations\n"
