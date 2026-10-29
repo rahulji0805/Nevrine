@@ -1,0 +1,19 @@
+[Unit]
+Description=Nevrine Neural Acceleration Inference Service
+After=network.target nvidia-persistenced.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/nevrine
+Environment="PATH=/usr/local/cuda/bin:/usr/bin:/bin"
+Environment="LD_LIBRARY_PATH=/usr/local/cuda/lib64"
+Environment="PYTHONPATH=/opt/nevrine/python"
+ExecStart=/usr/bin/python3 -m uvicorn serving.app:app --host 0.0.0.0 --port 8000 --workers 1
+Restart=always
+RestartSec=5
+LimitMEMLOCK=infinity
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

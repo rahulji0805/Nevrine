@@ -21,7 +21,7 @@ Based on the 8-week execution plan:
 
 ---
 
-## 📊 Performance Benchmarks (P3 Milestone)
+##  Performance Benchmarks (P3 Milestone)
 
 Empirical single-precision GEMM throughput measured on **NVIDIA RTX 4060 Laptop (sm_89, Ada Lovelace)**:
 

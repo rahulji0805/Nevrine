@@ -158,10 +158,10 @@ add_test(NAME pytest_suite COMMAND "${Python3_EXECUTABLE}" -m pytest "${CMAKE_SO
 
 if(EXISTS "/usr/lib/wsl/lib")
     set_tests_properties(smoke_test arena_test gemm_naive_test gemm_tiled_test activations_test conv2d_test pytest_suite PROPERTIES
-        ENVIRONMENT "LD_LIBRARY_PATH=/usr/lib/wsl/lib:$ENV{LD_LIBRARY_PATH};PYTHONPATH=${CMAKE_SOURCE_DIR}/python:$ENV{PYTHONPATH}"
+        ENVIRONMENT "LD_LIBRARY_PATH=/usr/lib/wsl/lib:$ENV{LD_LIBRARY_PATH};PYTHONPATH=${CMAKE_SOURCE_DIR}:${CMAKE_SOURCE_DIR}/python:$ENV{PYTHONPATH}"
     )
 else()
     set_tests_properties(pytest_suite PROPERTIES
-        ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}/python:$ENV{PYTHONPATH}"
+        ENVIRONMENT "PYTHONPATH=${CMAKE_SOURCE_DIR}:${CMAKE_SOURCE_DIR}/python:$ENV{PYTHONPATH}"
     )
 endif()
