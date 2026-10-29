@@ -14,9 +14,9 @@ Based on the 8-week execution plan:
 | **P1** | **Session 2** | VRAM Arena skeleton, 256-byte alignment, offset sub-allocation, bounds & exhaustion tests | **Completed**  |
 | **P2** | **Session 3** | Naive GEMM baseline kernel, launch bounds, CPU reference verification & benchmark | **Completed**  |
 | **P3** | **Week 3** | Shared-memory Tiled GEMM ($32 \times 32$), CUDA-event timing, benchmarks vs cuBLAS | **Completed**  |
-| **P4** | **Week 4** | Conv2D kernel, activations (ReLU), edge-case validation | **Completed** ✅ |
-| **P5** | **Week 5** | Pybind11 Python bindings, explicit tensor transfers, CPU fallback | **Completed** ✅ |
-| **P6** | **Week 6-7** | End-to-end CNN pipeline, FastAPI serving, Docker container, AWS deployment | **Next Up** ⏳ |
+| **P4** | **Week 4** | Conv2D kernel, activations (ReLU), edge-case validation | **Completed**  |
+| **P5** | **Week 5** | Pybind11 Python bindings, explicit tensor transfers, CPU fallback | **Completed**  |
+| **P6** | **Week 6-7** | End-to-end CNN pipeline, FastAPI serving, Docker container, AWS deployment | **Next Up**  |
 | **P7** | **Week 8** | Nsight Systems & Nsight Compute profiling, BENCHMARKS.md publication | Planned |
 
 ---
@@ -36,7 +36,7 @@ Empirical single-precision GEMM throughput measured on **NVIDIA RTX 4060 Laptop 
 
 ---
 
-## 🏗️ Repository Architecture
+##  Repository Architecture
 
 ```text
 Nevrine/
@@ -103,7 +103,7 @@ Nevrine/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Python Usage
 ```python
