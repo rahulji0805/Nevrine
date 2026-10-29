@@ -1,0 +1,42 @@
+#pragma once
+
+#include "nevrine/core/cuda_utils.hpp"
+#include <cuda_runtime.h>
+
+namespace nevrine {
+namespace cuda {
+
+/**
+ * @brief Launches shared-memory tiled single-precision General Matrix Multiplication (SGEMM) on the GPU.
+ *
+ * Computes: C = alpha * (A * B) + beta * C
+ * Layout: Row-Major
+ * Dimensions:
+ *   - A: M x K
+ *   - B: K x N
+ *   - C: M x N
+ *
+ * Each thread block loads tiles of A and B into high-speed on-chip Shared Memory (`__shared__`)
+ * with padding to eliminate bank conflicts. Threads synchronize with `__syncthreads()` before
+ * and after each tiled multiply-accumulate pass, reducing global memory bandwidth pressure by TILE_DIMx.
+ *
+ * Full boundary predicates ensure bit-exact numerical correctness for arbitrary matrix shapes
+ * (including non-multiples of TILE_DIM and prime dimensions).
+ *
+ * @param A Device pointer to M x K matrix
+ * @param B Device pointer to K x N matrix
+ * @param C Device pointer to M x N matrix
+ * @param M Number of rows in A and C
+ * @param N Number of columns in B and C
+ * @param K Number of columns in A and rows in B
+ * @param alpha Scalar multiplier for A * B (default 1.0f)
+ * @param beta Scalar multiplier for C (default 0.0f)
+ * @param stream CUDA stream for asynchronous launch (default 0)
+ */
+void launchTiledGemm(const float* A, const float* B, float* C,
+                    int M, int N, int K,
+                    float alpha = 1.0f, float beta = 0.0f,
+                    cudaStream_t stream = 0);
+
+} // namespace cuda
+} // namespace nevrine
