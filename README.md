@@ -16,8 +16,8 @@ Based on the 8-week execution plan:
 | **P3** | **Week 3** | Shared-memory Tiled GEMM ($32 \times 32$), CUDA-event timing, benchmarks vs cuBLAS | **Completed**  |
 | **P4** | **Week 4** | Conv2D kernel, activations (ReLU), edge-case validation | **Completed**  |
 | **P5** | **Week 5** | Pybind11 Python bindings, explicit tensor transfers, CPU fallback | **Completed**  |
-| **P6** | **Week 6-7** | End-to-end CNN pipeline, FastAPI serving, Docker container, AWS deployment | **Next Up**  |
-| **P7** | **Week 8** | Nsight Systems & Nsight Compute profiling, BENCHMARKS.md publication | Planned |
+| **P6** | **Week 6-7** | End-to-end CNN pipeline, FastAPI serving, Docker container, AWS deployment | **Completed**  |
+| **P7** | **Week 8** | Nsight Systems & Nsight Compute profiling, BENCHMARKS.md publication | **Next Up**  |
 
 ---
 
@@ -77,7 +77,21 @@ Nevrine/
 │   └── main.cpp              # Environment verification entry point
 ├── python/nevrine/
 │   ├── __init__.py           # Idiomatic Python package wrapper
-│   └── _nevrine.so           # Compiled C++/CUDA extension module
+│   ├── _nevrine.so           # Compiled C++/CUDA extension module
+│   └── models/
+│       ├── __init__.py       # Model architectures export
+│       └── cnn.py            # ConvNetClassifier pipeline (Conv2D+ReLU, MaxPool, GEMM)
+├── serving/
+│   ├── app.py                # FastAPI inference service with lifespan pre-warming
+│   └── schemas.py            # Pydantic request & response models
+├── docker/
+│   ├── Dockerfile            # Multi-stage CUDA 12.4 + Python 3.10 runtime container
+│   └── docker-compose.yml    # GPU-accelerated Docker Compose service
+├── deploy/
+│   └── aws/
+│       ├── DEPLOYMENT.md     # Production deployment runbook for EC2 g4dn (Tesla T4)
+│       ├── cloud-init.yaml   # Automated cloud-init provisioning & setup
+│       └── nevrine.service   # Systemd unit file for production serving
 ├── benchmarks/
 │   ├── bench_gemm_naive.cu   # P2 baseline benchmark harness
 │   └── bench_gemm_p3.cu      # P3 3-way benchmark (Naive vs Tiled vs cuBLAS)
@@ -93,7 +107,9 @@ Nevrine/
 │       ├── test_arena.py         # DeviceMemoryArena Python tests
 │       ├── test_gemm.py          # GEMM tests across 4 backends
 │       ├── test_conv2d.py        # Conv2D + fused ReLU Python tests
-│       └── test_activations.py   # ReLU & Leaky ReLU Python tests
+│       ├── test_activations.py   # ReLU & Leaky ReLU Python tests
+│       ├── test_pipeline.py      # End-to-end CNN pipeline & pooling tests
+│       └── test_serving.py       # FastAPI endpoint tests (/health, /predict, /benchmark)
 ├── docs/
 │   ├── DESIGN.md             # Memory arena contract, ownership rules & invariants
 │   └── environment.md        # Hardware and software toolchain snapshot
@@ -122,7 +138,35 @@ C = nevrine.gemm(A, B, backend="cuda_tiled")
 x = np.random.randn(1, 3, 32, 32).astype(np.float32)
 w = np.random.randn(16, 3, 3, 3).astype(np.float32)
 out = nevrine.conv2d(x, w, stride=1, pad=1, fuse_relu=True)
+
+# 4. End-to-End Deep CNN Classifier
+from nevrine.models import ConvNetClassifier
+classifier = ConvNetClassifier(backend="cuda_tiled")
+img_batch = np.random.randn(4, 1, 28, 28).astype(np.float32)
+predictions = classifier.predict(img_batch)
+print("Batch predictions:", predictions)
 ```
+
+### FastAPI Inference Serving
+```bash
+# Start production-ready serving daemon
+uvicorn serving.app:app --host 0.0.0.0 --port 8000
+
+# Telemetry & VRAM utilization check
+curl -s http://localhost:8000/health | jq .
+
+# In-flight percentile benchmark
+curl -X POST http://localhost:8000/benchmark \
+  -H "Content-Type: application/json" \
+  -d '{"iterations": 100, "warmup": 10, "batch_size": 1, "backend": "cuda_tiled"}' | jq .
+```
+
+### Cloud & Docker Deployment
+```bash
+# Launch container with NVIDIA Container Toolkit
+docker compose -f docker/docker-compose.yml up -d --build
+```
+For AWS EC2 (`g4dn.xlarge` NVIDIA T4) automated provisioning via `cloud-init` and `systemd`, see [`deploy/aws/DEPLOYMENT.md`](file:///deploy/aws/DEPLOYMENT.md).
 
 ### Prerequisites
 - NVIDIA GPU (tested on RTX 4060 8 GB, compatible with AWS T4)
@@ -146,3 +190,4 @@ cmake --build build
 ## Documentation Links
 - [DESIGN.md](file:///docs/DESIGN.md): Memory arena contract, boundary of guarantees, and alignment rules.
 - [environment.md](file:///docs/environment.md): Detailed GPU hardware specs, driver versions, and test results.
+- [DEPLOYMENT.md](file:///deploy/aws/DEPLOYMENT.md): AWS EC2 `g4dn.xlarge` (Tesla T4) cloud deployment & runbook.
